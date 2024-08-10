@@ -1,0 +1,102 @@
+@import '../../styles/vars.scss';
+
+.projects {
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  &__summary {
+    @media (max-width: 1000px) {
+      width: 80%;
+      padding: 20px;
+
+      &-title {
+        font-size: 32pt;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      &-description {
+        font-size: 16pt;
+      }
+    }
+    @media (min-width: 1000px) {
+      width: 50%;
+      padding: 20px;
+
+      &-title {
+        font-size: 32pt;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      &-description {
+        font-size: 16pt;
+      }
+    }
+  }
+
+  &__list {
+    width: 80%;
+    padding: 60px 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    &-item {
+      min-width: 300px;
+      width: 25%;
+      margin: 10px;
+      background-color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+
+      -moz-box-shadow: 0 0 3px #bbb;
+      -webkit-box-shadow: 0 0 3px #bbb;
+      box-shadow: 0 0 3px #bbb;
+
+      &__title {
+        display: flex;
+        align-items: center;
+
+        &-name {
+          @media (max-width: 1000px) {
+            font-size: 14pt;
+          }
+          @media (min-width: 1000px) {
+            font-size: 16pt;
+          }
+          font-weight: bold;
+        }
+
+        img {
+          min-width: 100px;
+          max-width: 100px;
+          min-height: 100px;
+          max-height: 100px;
+          padding: 10px;
+        }
+      }
+
+      &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &-description {
+          font-size: 11pt;
+          margin: 10px 0px;
+        }
+
+        &-link {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

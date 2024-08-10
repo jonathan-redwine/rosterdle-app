@@ -1,0 +1,17 @@
+@import 'styles/vars.scss';
+
+.App {
+  text-align: center;
+}
+
+a {
+  color: var(--color-teal);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+  &:visited {
+    color: var(--color-teal);
+  }
+}

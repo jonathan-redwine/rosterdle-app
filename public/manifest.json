@@ -1,0 +1,8 @@
+{
+  "short_name": "Jonathan H. Redwine",
+  "name": "Personal site for Jonathan Redwine",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
