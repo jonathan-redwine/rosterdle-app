@@ -1,6 +1,6 @@
 export const ENTITIES = {
-  ABOUT: 'about',
-  PROJECTS: 'projects',
-  RESUME: 'resume',
+  HOME: 'home',
+  GAME: 'game',
+  BATTLE: 'battle',
   CONTACT: 'contact',
 };

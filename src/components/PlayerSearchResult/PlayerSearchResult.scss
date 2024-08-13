@@ -1,0 +1,31 @@
+@import '../../styles/vars.scss';
+
+.player-search-result {
+  position: absolute;
+  width: 50%;
+  padding: 5px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__name {
+    margin-left: 5px;
+    font-size: 10pt;
+    font-weight: bold;
+  }
+
+  &__submit {
+    font-size: 9pt;
+    background-color: var(--color-red);
+    color: var(--color-black);
+    opacity: 0.8;
+    padding: 2px 10px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+}

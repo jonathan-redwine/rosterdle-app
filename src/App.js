@@ -1,37 +1,32 @@
 import React, { Component } from 'react';
 import './App.scss';
 import { ENTITIES } from './constants/entities';
-import NavBar from './components/NavBar/NavBar';
-import Footer from './components/Footer/Footer';
-import About from './entities/about/About';
-import Projects from './entities/projects/Projects';
-import Resume from './entities/resume/Resume';
+import SideBar from './components/SideBar/SideBar';
+import Home from './entities/home/Home';
+import Game from './entities/game/Game';
+import Battle from './entities/battle/Battle';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeEntity: ENTITIES.ABOUT };
+    this.state = { activeEntity: ENTITIES.HOME };
   }
 
   getActiveEntity = () => {
     switch (this.state.activeEntity) {
-      case ENTITIES.ABOUT: {
-        return <About scrollToBottom={this.scrollToBottom}></About>;
+      case ENTITIES.HOME: {
+        return <Home></Home>;
       }
-      case ENTITIES.PROJECTS: {
-        return <Projects></Projects>;
+      case ENTITIES.GAME: {
+        return <Game></Game>;
       }
-      case ENTITIES.RESUME: {
-        return <Resume></Resume>;
+      case ENTITIES.BATTLE: {
+        return <Battle></Battle>;
       }
       default: {
         return <span>NOTHING SELECTED</span>;
       }
     }
-  };
-
-  scrollToBottom = () => {
-    this.bottom.scrollIntoView({ behavior: 'smooth' });
   };
 
   entitySelected = entity => {
@@ -43,14 +38,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar entitySelected={this.entitySelected} scrollToBottom={this.scrollToBottom}></NavBar>
+        <SideBar entitySelected={this.entitySelected}></SideBar>
         {this.getActiveEntity()}
-        <Footer></Footer>
-        <div
-          ref={el => {
-            this.bottom = el;
-          }}
-        ></div>
       </div>
     );
   }

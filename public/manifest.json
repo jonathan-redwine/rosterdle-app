@@ -1,6 +1,6 @@
 {
-  "short_name": "Jonathan H. Redwine",
-  "name": "Personal site for Jonathan Redwine",
+  "short_name": "Rosterdle",
+  "name": "Rosterdle",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",

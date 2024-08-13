@@ -1,0 +1,35 @@
+@import '../../styles/vars.scss';
+
+.player-guess {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+
+  &__name {
+    width: 25%;
+    font-weight: bold;
+    text-align: start;
+  }
+
+  &__teammate {
+    width: 25%;
+    color: var(--color-black);
+
+    span:hover {
+      cursor: pointer;
+    }
+  }
+
+  .all-shared-teams {
+    color: var(--color-green);
+  }
+
+  .some-shared-teams {
+    color: yellow;
+  }
+
+  .no-shared-teams {
+    color: var(--color-red);
+  }
+}
