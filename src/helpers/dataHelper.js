@@ -34,10 +34,46 @@ export const handlePlayerGuess = (guessPlayer, teammates, mlbTeams) => {
   };
 };
 
-const getSharedTeams = (firstPlayerName, secondPlayerName, teams) => {
+export const getSharedTeams = (firstPlayerName, secondPlayerName, teams) => {
   return teams.filter(
     t => t.roster.find(p => p.includes(firstPlayerName)) && t.roster.find(p => p.includes(secondPlayerName))
   );
+};
+
+export const consolidateTeams = teams => {
+  let teamsRemaining = [...teams];
+  let consolidatedTeams = [];
+  let currTeamName;
+  let currMinYear;
+  let currMaxYear;
+  while (teamsRemaining.length > 0) {
+    const earliestTeam = teamsRemaining.reduce((prev, curr) => {
+      return prev.year < curr.year ? prev : curr;
+    });
+    currTeamName = earliestTeam.name;
+    currMinYear = earliestTeam.year;
+    currMaxYear = earliestTeam.year;
+    teamsRemaining = teamsRemaining.filter(t => !(t.name === earliestTeam.name && t.year === earliestTeam.year));
+    let nextTeam = teamsRemaining.length
+      ? teamsRemaining.reduce((prev, curr) => {
+          return prev.year < curr.year ? prev : curr;
+        })
+      : { name: '' };
+    while (nextTeam.name === currTeamName) {
+      let thisTeam = nextTeam;
+      currMaxYear = thisTeam.year;
+      teamsRemaining = teamsRemaining.filter(t => !(t.name === thisTeam.name && t.year === thisTeam.year));
+      nextTeam = teamsRemaining.length
+        ? teamsRemaining.reduce((prev, curr) => {
+            return prev.year < curr.year ? prev : curr;
+          })
+        : { name: '' };
+    }
+    consolidatedTeams.push(
+      currMinYear === currMaxYear ? `${currMinYear} ${currTeamName}` : `${currMinYear}-${currMaxYear} ${currTeamName}`
+    );
+  }
+  return consolidatedTeams;
 };
 
 export const playersWhoWereTeammates = (teammateNames, mlbTeams, allPlayers) => {
@@ -75,8 +111,13 @@ export const executePlayerSearch = (searchText, allPlayers) => {
     if (a.name > b.name) return 1;
     return 0;
   };
-  // THIS SORT ISNT WORKING FOR SOME REASON
   return allPlayers
     .filter(player => player.name.toUpperCase().includes(searchText.toUpperCase()))
     .sort(sortAlphabetically);
+};
+
+export const randomCurrentPlayer = allPlayers => {
+  const currentYear = new Date().getUTCFullYear();
+  const currentPlayers = allPlayers.filter(player => player.lastYear === currentYear);
+  return currentPlayers[Math.floor(Math.random() * currentPlayers.length)];
 };

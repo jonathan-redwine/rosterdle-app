@@ -1,6 +1,6 @@
 @import '../../styles/vars.scss';
 
-.nav-bar {
+.side-bar {
   height: 100vh;
   width: 10%;
   min-width: 150px;
@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: space-between;
   font-size: 12pt;
+  box-shadow: 8px 0 5px -2px #888;
 
   &__header {
     font-size: 24pt;
@@ -23,11 +24,11 @@
   &__nav {
     &-item {
       color: var(--color-white);
-      padding: 15px 40px;
+      padding: 10px 40px;
       font-weight: bold;
 
       &:hover {
-        background-image: linear-gradient(rgba(255, 255, 255, 0.1) 0 0);
+        background-image: linear-gradient(rgba(49, 245, 49, 0.3) 0 0);
         cursor: pointer;
       }
     }

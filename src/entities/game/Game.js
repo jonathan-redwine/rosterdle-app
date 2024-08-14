@@ -2,16 +2,11 @@ import React, { Component } from 'react';
 import './Game.scss';
 import PlayerDisplay from '../../components/PlayerDisplay/PlayerDisplay';
 import PlayerGuess from '../../components/PlayerGuess/PlayerGuess';
-import PlayerSearchResult from '../../components/PlayerSearchResult/PlayerSearchResult';
+import PlayerSearch from '../../components/PlayerSearch/PlayerSearch';
 import targetPlayers from '../../data/target_players.json';
 import mlbTeams from '../../data/mlb_teams.json';
 import allPlayers from '../../data/all_players.json';
-import {
-  constructFullTargetPlayer,
-  getTeammates,
-  handlePlayerGuess,
-  executePlayerSearch,
-} from '../../helpers/dataHelper';
+import { constructFullTargetPlayer, getTeammates, handlePlayerGuess } from '../../helpers/dataHelper';
 
 class Game extends Component {
   constructor(props) {
@@ -23,51 +18,10 @@ class Game extends Component {
       guessInput: '',
       gameRound: 1,
       playerGuesses: [],
-      searchResult: [],
-      showSearchResult: false,
     };
-    this.handleGuessInputChange = this.handleGuessInputChange.bind(this);
-    this.handleGuessInputFocusIn = this.handleGuessInputFocusIn.bind(this);
-    this.handleGuessInputBlur = this.handleGuessInputBlur.bind(this);
-    this.handleSubmitGuess = this.handleSubmitGuess.bind(this);
     this.calculatePlayerGuessMargin = this.calculatePlayerGuessMargin.bind(this);
     this.isGuessCorrect = this.isGuessCorrect.bind(this);
-  }
-
-  handleGuessInputChange(e) {
-    const searchText = e.target.value;
-    this.setState({
-      guessInput: searchText,
-      searchResult: searchText.length > 0 ? executePlayerSearch(searchText, allPlayers) : [],
-    });
-  }
-
-  handleGuessInputFocusIn() {
-    this.setState({ showSearchResult: true });
-  }
-
-  handleGuessInputBlur() {
-    setTimeout(() => {
-      this.setState({ showSearchResult: false });
-    }, 100); // Force async (1/10th of a second) to allow a guess submit event to occur
-  }
-
-  handleSubmitGuess(playerName) {
-    let newPlayerGuess = handlePlayerGuess(playerName, this.state.teammates, mlbTeams);
-    newPlayerGuess = {
-      ...newPlayerGuess,
-      correct: this.isGuessCorrect(newPlayerGuess.teammates, this.state.teammates),
-    };
-    this.setState({
-      gameRound: this.state.gameRound + 1,
-      playerGuesses: [...this.state.playerGuesses, newPlayerGuess],
-      searchResult: [],
-      guessInput: '',
-    });
-
-    if (newPlayerGuess.correct) {
-      this.handleGameWin();
-    }
+    this.onNewPlayerGuess = this.onNewPlayerGuess.bind(this);
   }
 
   handleGameWin() {
@@ -78,7 +32,7 @@ class Game extends Component {
 
   calculatePlayerGuessMargin(i) {
     const step = 70;
-    return `${(this.state.playerGuesses.length - i) * step}px`;
+    return `${(this.state.playerGuesses.length - i - 1) * step}px`;
   }
 
   isGuessCorrect(guessTeammates, targetTeammates) {
@@ -94,6 +48,25 @@ class Game extends Component {
       i++;
     });
     return numSharedTeams === totalSharedTeams;
+  }
+
+  onNewPlayerGuess(player) {
+    let newPlayerGuess = handlePlayerGuess(player.name, this.state.teammates, mlbTeams);
+    newPlayerGuess = {
+      ...newPlayerGuess,
+      correct: this.isGuessCorrect(newPlayerGuess.teammates, this.state.teammates),
+    };
+    this.setState({
+      gameRound: this.state.gameRound + 1,
+      playerGuesses: [...this.state.playerGuesses, newPlayerGuess],
+    });
+
+    if (newPlayerGuess.correct) {
+      this.handleGameWin();
+    }
+    this.setState({
+      playerGuesses: [...this.state.playerGuesses, newPlayerGuess],
+    });
   }
 
   render() {
@@ -124,26 +97,11 @@ class Game extends Component {
             </div>
           </div>
           <div className="game-container__guesses">
-            <div className="game-container__guesses__guess">
-              <input
-                type="text"
-                value={this.state.guessInput}
-                onChange={this.handleGuessInputChange}
-                onFocus={this.handleGuessInputFocusIn}
-                onBlur={this.handleGuessInputBlur}
-              />
-            </div>
-            {this.state.showSearchResult &&
-              this.state.searchResult.slice(0, 10).map((player, index) => {
-                return (
-                  <PlayerSearchResult
-                    key={index}
-                    player={player}
-                    index={index}
-                    handleSubmitGuess={this.handleSubmitGuess}
-                  ></PlayerSearchResult>
-                );
-              })}
+            <PlayerSearch
+              className="game-container__guesses__guess"
+              teammates={this.state.teammates}
+              onNewPlayerGuess={this.onNewPlayerGuess}
+            ></PlayerSearch>
             {this.state.playerGuesses.map((playerGuess, index) => {
               return (
                 <div

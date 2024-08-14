@@ -9,7 +9,9 @@ import Battle from './entities/battle/Battle';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeEntity: ENTITIES.HOME };
+    this.state = {
+      activeEntity: ENTITIES.HOME,
+    };
   }
 
   getActiveEntity = () => {

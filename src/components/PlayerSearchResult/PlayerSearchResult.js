@@ -12,7 +12,8 @@ class PlayerSearchResult extends Component {
 
   calculatePlayerSearchResultMargin(i) {
     const step = 31;
-    return `-${step * (i + 1)}px`;
+    const offset = 20;
+    return `${step * (i + 1) + offset}px`;
   }
 
   render() {
@@ -21,10 +22,15 @@ class PlayerSearchResult extends Component {
         className="player-search-result"
         style={{ marginTop: this.calculatePlayerSearchResultMargin(this.props.index) }}
       >
-        <div className="player-search-result__name">{this.props.player.name}</div>
+        <div className="player-search-result__name">
+          <span className={`${this.props.disallowed ? 'disallowed' : ''}`}>{this.props.player.name}</span>
+          <span className="player-search-result__name__years">
+            {this.props.player.firstYear} - {this.props.player.lastYear}
+          </span>
+        </div>
         <div
-          className="player-search-result__submit"
-          onClick={() => this.props.handleSubmitGuess(this.props.player.name)}
+          className={`player-search-result__submit ${this.props.disallowed ? 'disallowed-btn' : ''}`}
+          onClick={() => !this.props.disallowed && this.props.handleSubmitGuess(this.props.player)}
         >
           Submit
         </div>

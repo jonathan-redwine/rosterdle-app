@@ -46,17 +46,6 @@
         animation-iteration-count: 1;
         animation-timing-function: ease-in;
         animation-duration: 0.5s;
-
-        input {
-          width: 98%;
-          font-size: 23pt;
-          padding: 5px;
-          background-color: var(--color-white);
-          border-radius: 5px;
-          border: none;
-          outline: none;
-          color: var(--color-gray);
-        }
       }
 
       .correct-guess {
