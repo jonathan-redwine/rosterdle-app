@@ -1,0 +1,23 @@
+@import '../../styles/vars.scss';
+
+.page-not-found {
+  height: 100vh;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20pt;
+  font-weight: bold;
+
+  .link {
+    color: var(--color-blue);
+    -webkit-filter: brightness(70%);
+    filter: brightness(70%);
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}

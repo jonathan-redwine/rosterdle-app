@@ -1,6 +1,7 @@
 // Timer component
 
 import React, { useEffect, useImperativeHandle, useState } from 'react';
+import './Timer.scss';
 
 const Timer = (props, ref) => {
   const [secondsRemaining, setSecondsRemaining] = useState(props.timerMaxSeconds);
@@ -25,7 +26,11 @@ const Timer = (props, ref) => {
     return () => clearInterval(interval);
   });
 
-  return <div className="timer">{secondsRemaining}</div>;
+  return (
+    <div className="timer" style={{ backgroundSize: `100% ${(secondsRemaining / props.timerMaxSeconds) * 100}%` }}>
+      {secondsRemaining}
+    </div>
+  );
 };
 
 export default React.forwardRef(Timer);

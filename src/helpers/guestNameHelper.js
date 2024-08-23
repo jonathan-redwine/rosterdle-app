@@ -49,7 +49,7 @@ const nouns = [
 ];
 
 export const generateRandomGuestName = () => {
-  return `${adjectives[Math.floor(Math.random() * adjectives.length)]} ${
+  return `The ${adjectives[Math.floor(Math.random() * adjectives.length)]} ${
     nouns[Math.floor(Math.random() * nouns.length)]
   }`;
 };

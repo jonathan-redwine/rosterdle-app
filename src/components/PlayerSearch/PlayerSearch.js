@@ -12,11 +12,15 @@ class PlayerSearch extends Component {
       searchResult: [],
       showSearchResult: false,
     };
-
+    this.getInputPlaceholder = this.getInputPlaceholder.bind(this);
     this.handleGuessInputChange = this.handleGuessInputChange.bind(this);
     this.handleGuessInputFocusIn = this.handleGuessInputFocusIn.bind(this);
     this.handleGuessInputBlur = this.handleGuessInputBlur.bind(this);
     this.handleSubmitGuess = this.handleSubmitGuess.bind(this);
+  }
+
+  getInputPlaceholder() {
+    return this.props.disabled ? 'WAITING FOR OPPONENT...' : 'SUBMIT PLAYER';
   }
 
   handleGuessInputChange(e) {
@@ -58,7 +62,7 @@ class PlayerSearch extends Component {
           onFocus={this.handleGuessInputFocusIn}
           onBlur={this.handleGuessInputBlur}
           disabled={this.props.disabled}
-          placeholder={this.props.disabled ? 'waiting for opponent...' : "it's your turn!"}
+          placeholder={this.getInputPlaceholder()}
         />
         <div className="player-search__results-list">
           {this.state.showSearchResult &&

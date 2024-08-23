@@ -8,21 +8,20 @@
   align-items: center;
   margin: 2px;
   font-size: 11pt;
-  background-color: var(--color-gray);
   color: var(--color-white);
-  border-radius: 5px;
-  border: 2px solid var(--color-black);
+  border-radius: 15px;
   transition: margin 0.5s;
 
   input {
     width: 98%;
-    font-size: 23pt;
-    padding: 5px;
-    background-color: var(--color-white);
-    border-radius: 5px;
-    border: none;
+    font-size: 12pt;
+    font-weight: bold;
+    padding: 15px 20px;
+    background-color: var(--color-black);
+    border-radius: 15px;
+    border: 1px solid var(--color-gray);
     outline: none;
-    color: var(--color-gray);
+    color: var(--color-white);
   }
 
   &__results-list {

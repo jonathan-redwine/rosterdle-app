@@ -101,6 +101,8 @@ class Game extends Component {
               className="game-container__guesses__guess"
               teammates={this.state.teammates}
               onNewPlayerGuess={this.onNewPlayerGuess}
+              disabled={false}
+              disallowedPlayers={[]}
             ></PlayerSearch>
             {this.state.playerGuesses.map((playerGuess, index) => {
               return (

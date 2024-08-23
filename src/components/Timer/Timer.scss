@@ -1,0 +1,16 @@
+@import '../../styles/vars.scss';
+
+.timer {
+  border: 2px solid var(--color-blue);
+  border-radius: 50%;
+  color: var(--color-blue);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  font-weight: bold;
+  min-width: 75px;
+  min-height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(var(--color-blue), var(--color-blue)) bottom no-repeat;
+  background-size: 100% 20%;
+}

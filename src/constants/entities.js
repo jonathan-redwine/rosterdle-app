@@ -3,4 +3,6 @@ export const ENTITIES = {
   GAME: 'game',
   BATTLE: 'battle',
   CONTACT: 'contact',
+  HOW_TO_PLAY: 'howToPlay',
+  LOGIN: 'login',
 };

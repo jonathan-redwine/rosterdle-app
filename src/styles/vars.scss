@@ -1,10 +1,13 @@
 :root {
-  --color-black: #282c34;
+  --color-black: rgb(19, 23, 25);
   --color-gray: #616161;
   --color-white: #ededed;
-  --color-teal: #008080;
-  --color-coral: #ff6f61;
 
+  --color-blue: rgb(79, 254, 254);
+  --color-blue-faded: rgb(79, 254, 254, 0.6);
   --color-green: rgb(49, 245, 49);
+  --color-green-faded: rgba(49, 245, 49, 0.5);
   --color-red: rgb(248, 56, 56);
+  --color-red-faded: rgb(248, 56, 56, 0.8);
+  --color-yellow: rgb(255, 245, 49);
 }
