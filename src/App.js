@@ -37,6 +37,7 @@ class App extends Component {
 
     if (this.state.socket) return;
 
+    console.log(`Connecting to ${process.env.REACT_APP_SOCKET_API_LOCATION}`);
     const socket = socketIO.connect(process.env.REACT_APP_SOCKET_API_LOCATION);
 
     // When connected to socket server, get user data if user is logged in
