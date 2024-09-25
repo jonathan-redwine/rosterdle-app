@@ -4,6 +4,161 @@
   height: 100vh;
   width: 90%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
+
+  &__header {
+    &-title {
+      font-size: 24pt;
+    }
+
+    &-subtitle {
+      font-size: 14pt;
+    }
+  }
+
+  .game-mode {
+    width: 70%;
+
+    &__title {
+      font-size: 14pt;
+      font-weight: bold;
+      width: 100%;
+      text-align: start;
+      border-bottom: 1px solid var(--color-black);
+    }
+
+    &__games-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+
+      &__game {
+        min-width: 300px;
+        min-height: 150px;
+        margin: 20px 10px;
+        border: 2px solid var(--color-black);
+        color: var(--color-black);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+        &-title {
+          font-weight: bold;
+          font-size: 14pt;
+        }
+
+        &-subtitle {
+          font-size: 12pt;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-image: linear-gradient(rgba(0, 0, 0, 0.08) 0 0);
+        }
+      }
+
+      .green-game {
+        background-color: var(--color-green-faded);
+      }
+
+      .red-game {
+        background-color: var(--color-red-faded);
+      }
+
+      .blue-game {
+        background-color: var(--color-blue-faded);
+      }
+
+      .black-game {
+        background-color: var(--color-black);
+        filter: brightness(140%);
+        color: var(--color-white);
+
+        &:hover {
+          filter: brightness(100%);
+        }
+      }
+    }
+  }
+
+  .archive {
+    height: 75%;
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__back {
+      width: 100%;
+      text-align: start;
+      margin-bottom: 40px;
+
+      &-btn {
+        &:hover {
+          cursor: pointer;
+          color: var(--color-blue-faded);
+          filter: brightness(50%);
+        }
+      }
+    }
+
+    &__games {
+      width: 95%;
+
+      &-header {
+        font-size: 14pt;
+        font-weight: bold;
+        width: 100%;
+        text-align: start;
+        border-bottom: 1px solid var(--color-black);
+        margin-bottom: 20px;
+      }
+
+      &-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &__game {
+          width: 95%;
+          margin-top: 10px;
+          padding: 10px;
+          border: 1px solid var(--color-gray);
+          color: var(--color-black);
+          display: flex;
+          justify-content: flex-start;
+
+          &:hover {
+            cursor: pointer;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0 0);
+          }
+
+          &-info-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 25px;
+          }
+
+          .date {
+            font-weight: bold;
+          }
+        }
+
+        .game-won {
+          background-color: var(--color-green-faded);
+        }
+
+        .game-lost {
+          background-color: var(--color-red-faded);
+        }
+      }
+    }
+  }
 }

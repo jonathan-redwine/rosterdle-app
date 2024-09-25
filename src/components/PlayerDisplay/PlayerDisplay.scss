@@ -1,12 +1,13 @@
 @import '../../styles/vars.scss';
 
 .player {
-  min-height: 400px;
+  min-height: 300px;
   min-width: 200px;
 
   &__pic {
     border-radius: 10px;
     min-width: 125px;
+    min-height: 190px;
     border: 2px solid var(--color-black);
   }
 

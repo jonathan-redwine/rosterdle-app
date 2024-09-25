@@ -1,0 +1,35 @@
+.player-search {
+  width: 100%;
+  min-height: 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  font-size: 11pt;
+  color: var(--color-white);
+  border-radius: 15px;
+  transition: margin 0.5s;
+
+  input {
+    width: 98%;
+    font-size: 12pt;
+    font-weight: bold;
+    padding: 15px 20px;
+    background-color: var(--color-black);
+    border-radius: 15px;
+    border: 1px solid var(--color-gray);
+    outline: none;
+    color: var(--color-white);
+  }
+
+  &__results-list {
+    position: absolute;
+    bottom: calc(100% + 5px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

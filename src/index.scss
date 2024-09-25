@@ -1,10 +1,11 @@
 @import 'styles/vars.scss';
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap'); /* Oswald */
 
 body {
   margin: 0;
   color: var(--color-gray);
   background-color: var(--color-white);
-  font-family: sans-serif;
+  font-family: Oswald;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

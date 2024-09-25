@@ -1,17 +1,21 @@
 export const constructFullTargetPlayer = (playerName, mlbTeams, allPlayers) => {
   const teams = mlbTeams.filter(t => t.roster.find(p => p.includes(playerName)));
+  const player = allPlayers.find(p => p.name === playerName);
   return {
-    id: allPlayers.find(p => p.name === playerName).id,
+    id: player.id,
     name: playerName,
     teams,
+    numbers: player.numbers
+      .map(number => parseInt(number.replace('#', '')))
+      .filter(number => !isNaN(number))
+      .sort((a, b) => a - b),
+    positions: player.positions,
   };
 };
 
 export const getTeammates = (targetPlayer, teammates, allPlayers) => {
   return teammates.map(teammateName => {
-    const sharedTeams = getSharedTeams(targetPlayer.name, teammateName, targetPlayer.teams)
-      .map(team => `${team.year} ${team.name}`)
-      .sort();
+    const sharedTeams = getSharedTeams(targetPlayer.name, teammateName, targetPlayer.teams).sort();
     const teammate = {
       id: allPlayers.find(p => p.name === teammateName).id,
       name: teammateName,
@@ -21,23 +25,72 @@ export const getTeammates = (targetPlayer, teammates, allPlayers) => {
   });
 };
 
-export const handlePlayerGuess = (guessPlayer, teammates, mlbTeams) => {
+export const handlePlayerGuess = (guessPlayer, teammates, mlbTeams, allPlayers) => {
+  const player = allPlayers.find(p => p.name === guessPlayer);
   return {
     name: guessPlayer,
     teammates: teammates.map(teammate => {
       const sharedTeams = getSharedTeams(teammate.name, guessPlayer, mlbTeams);
       return {
         name: teammate.name,
-        sharedTeams: sharedTeams.map(st => `${st.year} ${st.name}`),
+        sharedTeams,
       };
     }),
+    numbers: player.numbers
+      .map(number => parseInt(number.replace('#', '')))
+      .filter(number => !isNaN(number))
+      .sort((a, b) => a - b),
+    positions: player.positions,
   };
 };
 
-const getSharedTeams = (firstPlayerName, secondPlayerName, teams) => {
+export const getSharedTeams = (firstPlayerName, secondPlayerName, teams) => {
   return teams.filter(
     t => t.roster.find(p => p.includes(firstPlayerName)) && t.roster.find(p => p.includes(secondPlayerName))
   );
+};
+
+export const consolidateTeams = teams => {
+  const getEarliestTeam = (teams, currTeamName, currMinYear) => {
+    const sameTeamSameYear = teams.find(team => team.year === currMinYear && team.name === currTeamName);
+    return sameTeamSameYear
+      ? sameTeamSameYear
+      : teams.reduce((prev, curr) => {
+          return prev.year < curr.year ? prev : curr;
+        });
+  };
+
+  let teamsRemaining = [...teams];
+  let consolidatedTeams = [];
+  let currTeamName = '';
+  let currMinYear = 0;
+  let currMaxYear;
+  while (teamsRemaining.length > 0) {
+    const earliestTeam = getEarliestTeam(teamsRemaining, currTeamName, currMinYear);
+    currTeamName = earliestTeam.name;
+    currMinYear = earliestTeam.year;
+    currMaxYear = earliestTeam.year;
+    teamsRemaining = teamsRemaining.filter(t => !(t.name === earliestTeam.name && t.year === earliestTeam.year));
+    let nextTeam = teamsRemaining.length
+      ? teamsRemaining.reduce((prev, curr) => {
+          return prev.year < curr.year ? prev : curr;
+        })
+      : { name: '' };
+    while (nextTeam.name === currTeamName) {
+      let thisTeam = nextTeam;
+      currMaxYear = thisTeam.year;
+      teamsRemaining = teamsRemaining.filter(t => !(t.name === thisTeam.name && t.year === thisTeam.year));
+      nextTeam = teamsRemaining.length
+        ? teamsRemaining.reduce((prev, curr) => {
+            return prev.year < curr.year ? prev : curr;
+          })
+        : { name: '' };
+    }
+    consolidatedTeams.push(
+      currMinYear === currMaxYear ? `${currMinYear} ${currTeamName}` : `${currMinYear}-${currMaxYear} ${currTeamName}`
+    );
+  }
+  return consolidatedTeams;
 };
 
 export const playersWhoWereTeammates = (teammateNames, mlbTeams, allPlayers) => {
@@ -75,8 +128,13 @@ export const executePlayerSearch = (searchText, allPlayers) => {
     if (a.name > b.name) return 1;
     return 0;
   };
-  // THIS SORT ISNT WORKING FOR SOME REASON
   return allPlayers
     .filter(player => player.name.toUpperCase().includes(searchText.toUpperCase()))
     .sort(sortAlphabetically);
+};
+
+export const randomCurrentPlayer = allPlayers => {
+  const currentYear = new Date().getUTCFullYear();
+  const currentPlayers = allPlayers.filter(player => player.lastYear === currentYear);
+  return currentPlayers[Math.floor(Math.random() * currentPlayers.length)];
 };
