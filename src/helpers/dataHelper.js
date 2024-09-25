@@ -1,17 +1,21 @@
 export const constructFullTargetPlayer = (playerName, mlbTeams, allPlayers) => {
   const teams = mlbTeams.filter(t => t.roster.find(p => p.includes(playerName)));
+  const player = allPlayers.find(p => p.name === playerName);
   return {
-    id: allPlayers.find(p => p.name === playerName).id,
+    id: player.id,
     name: playerName,
     teams,
+    numbers: player.numbers
+      .map(number => parseInt(number.replace('#', '')))
+      .filter(number => !isNaN(number))
+      .sort((a, b) => a - b),
+    positions: player.positions,
   };
 };
 
 export const getTeammates = (targetPlayer, teammates, allPlayers) => {
   return teammates.map(teammateName => {
-    const sharedTeams = getSharedTeams(targetPlayer.name, teammateName, targetPlayer.teams)
-      .map(team => `${team.year} ${team.name}`)
-      .sort();
+    const sharedTeams = getSharedTeams(targetPlayer.name, teammateName, targetPlayer.teams).sort();
     const teammate = {
       id: allPlayers.find(p => p.name === teammateName).id,
       name: teammateName,
@@ -21,16 +25,22 @@ export const getTeammates = (targetPlayer, teammates, allPlayers) => {
   });
 };
 
-export const handlePlayerGuess = (guessPlayer, teammates, mlbTeams) => {
+export const handlePlayerGuess = (guessPlayer, teammates, mlbTeams, allPlayers) => {
+  const player = allPlayers.find(p => p.name === guessPlayer);
   return {
     name: guessPlayer,
     teammates: teammates.map(teammate => {
       const sharedTeams = getSharedTeams(teammate.name, guessPlayer, mlbTeams);
       return {
         name: teammate.name,
-        sharedTeams: sharedTeams.map(st => `${st.year} ${st.name}`),
+        sharedTeams,
       };
     }),
+    numbers: player.numbers
+      .map(number => parseInt(number.replace('#', '')))
+      .filter(number => !isNaN(number))
+      .sort((a, b) => a - b),
+    positions: player.positions,
   };
 };
 
@@ -41,15 +51,22 @@ export const getSharedTeams = (firstPlayerName, secondPlayerName, teams) => {
 };
 
 export const consolidateTeams = teams => {
+  const getEarliestTeam = (teams, currTeamName, currMinYear) => {
+    const sameTeamSameYear = teams.find(team => team.year === currMinYear && team.name === currTeamName);
+    return sameTeamSameYear
+      ? sameTeamSameYear
+      : teams.reduce((prev, curr) => {
+          return prev.year < curr.year ? prev : curr;
+        });
+  };
+
   let teamsRemaining = [...teams];
   let consolidatedTeams = [];
-  let currTeamName;
-  let currMinYear;
+  let currTeamName = '';
+  let currMinYear = 0;
   let currMaxYear;
   while (teamsRemaining.length > 0) {
-    const earliestTeam = teamsRemaining.reduce((prev, curr) => {
-      return prev.year < curr.year ? prev : curr;
-    });
+    const earliestTeam = getEarliestTeam(teamsRemaining, currTeamName, currMinYear);
     currTeamName = earliestTeam.name;
     currMinYear = earliestTeam.year;
     currMaxYear = earliestTeam.year;

@@ -8,17 +8,27 @@
 
   &__name {
     width: 25%;
-    font-weight: bold;
     text-align: start;
   }
 
   &__teammate {
     width: 25%;
     color: var(--color-black);
+    text-align: center;
 
     span:hover {
       cursor: pointer;
     }
+
+    .MuiTooltip-tooltip {
+      text-wrap: wrap;
+      font-size: 10pt;
+      font-family: Oswald;
+    }
+  }
+
+  .correct-guess {
+    color: var(--color-black);
   }
 
   .all-shared-teams {

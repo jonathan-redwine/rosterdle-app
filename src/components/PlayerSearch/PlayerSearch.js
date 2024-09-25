@@ -20,7 +20,7 @@ class PlayerSearch extends Component {
   }
 
   getInputPlaceholder() {
-    return this.props.disabled ? 'WAITING FOR OPPONENT...' : 'SUBMIT PLAYER';
+    return this.props.disabled ? this.props.placeholder : 'SUBMIT PLAYER';
   }
 
   handleGuessInputChange(e) {

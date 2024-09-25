@@ -1,0 +1,70 @@
+@import '../../styles/vars.scss';
+
+.login {
+  height: 100vh;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .header {
+    width: 100%;
+    margin-bottom: 80px;
+
+    &-title {
+      font-size: 24pt;
+    }
+
+    &-subtitle {
+      font-size: 16pt;
+    }
+  }
+
+  .user-info {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+
+    &__item {
+      width: 100%;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      &-label {
+        font-size: 14pt;
+        font-weight: bold;
+        color: var(--color-blue-faded);
+        filter: brightness(50%);
+      }
+
+      &-value {
+        margin-left: 5px;
+        padding: 10px;
+        font-size: 16pt;
+        display: flex;
+        align-items: center;
+
+        &__dropdown {
+          margin: 20px;
+        }
+      }
+
+      &__logout-btn {
+        margin-top: 20px;
+        font-size: 14pt;
+
+        &:hover {
+          color: var(--color-red);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+MuiPaper-root {
+  max-height: 200px !important;
+}

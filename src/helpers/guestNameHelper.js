@@ -1,10 +1,8 @@
-const adjectives = [
+export const adjectives = [
   'Bouncy',
-  'Swift',
   'Clutch',
   'Slippery',
   'Sneaky',
-  'Rowdy',
   'Dizzy',
   'Zippy',
   'Wobbly',
@@ -25,7 +23,7 @@ const adjectives = [
   'Peppy',
 ];
 
-const nouns = [
+export const nouns = [
   'Mascots',
   'Referees',
   'Benchwarmers',
@@ -47,6 +45,14 @@ const nouns = [
   'Catchers',
   'Wizards',
 ];
+
+export const generateRandomAdjective = () => {
+  return adjectives[Math.floor(Math.random() * adjectives.length)];
+};
+
+export const generateRandomNoun = () => {
+  return nouns[Math.floor(Math.random() * nouns.length)];
+};
 
 export const generateRandomGuestName = () => {
   return `The ${adjectives[Math.floor(Math.random() * adjectives.length)]} ${

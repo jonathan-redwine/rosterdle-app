@@ -77,20 +77,21 @@ const HowToPlay = () => {
                     className="card-content__rules-container__rule left-justify"
                     style={{ marginLeft: '10%', marginRight: '10%' }}
                   >
-                    <div className="list-item">1 - Names of the unknown player's teammates</div>
+                    <div className="list-item">1 - The numbers the unknown player wore during their career</div>
+                    <div className="list-item">2 - The unknown player's position(s)</div>
+                    <div className="list-item">3 - Names of the unknown player's teammates</div>
                     <div className="list-item">
-                      2 - The teams that the first teammate shared with the unknown player
+                      4 - The teams that the first teammate shared with the unknown player
                     </div>
                     <div className="list-item">
-                      3 - The teams that the second teammate shared with the unknown player
+                      5 - The teams that the second teammate shared with the unknown player
                     </div>
                     <div className="list-item">
-                      4 - The teams that the third teammate shared with the unknown player
+                      6 - The teams that the third teammate shared with the unknown player
                     </div>
-                    <div className="list-item">5 - The unknown player's position(s)</div>
                   </div>
                   <div className="card-content__rules-container__rule">
-                    After 6 incorrect guesses, the game is over and the unknown player will be revealed.
+                    After 7 incorrect guesses, the game is over and the unknown player will be revealed.
                   </div>
                   <div className="card-content__rules-container__rule">
                     <button className="flip-button" onClick={() => handleFlip(0)}>

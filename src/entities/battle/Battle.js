@@ -3,14 +3,13 @@ import './Battle.scss';
 import allPlayers from '../../data/all_players.json';
 import mlbTeams from '../../data/mlb_teams.json';
 import { MODES } from './battle-constants';
-import socketIO from 'socket.io-client';
 import { ClipLoader } from 'react-spinners';
 import PlayerSearch from '../../components/PlayerSearch/PlayerSearch';
 import PlayerSubmission from '../../components/PlayerSubmission/PlayerSubmission';
 import Timer from '../../components/Timer/Timer';
 import BattleMode from '../../assets/battlemode.png';
 import { randomCurrentPlayer, getSharedTeams, consolidateTeams } from '../../helpers/dataHelper';
-import { generateRandomGuestName } from '../../helpers/guestNameHelper';
+import { generateRandomAdjective, generateRandomGuestName, generateRandomNoun } from '../../helpers/guestNameHelper';
 import { ENTITIES } from '../../constants/entities';
 
 class Battle extends Component {
@@ -19,6 +18,7 @@ class Battle extends Component {
 
     this.state = {
       currentMode: MODES.HOME,
+      socket: this.props.socket, // should use componentWillReceiveProps for this
       player: '',
       playersSubmitted: [],
       timerRef: React.createRef(),
@@ -39,18 +39,21 @@ class Battle extends Component {
     this.getGameStateText = this.getGameStateText.bind(this);
   }
 
+  // Attach socket events specific for Battle mode
   componentDidMount() {
-    if (this.state.socket) return;
-    const socket = socketIO.connect('http://localhost:4000');
-    this.setState({
-      username: generateRandomGuestName(),
-    });
+    if (this.props.user) {
+      this.setState({
+        username: `The ${this.props.user.prefAdjective ? this.props.user.prefAdjective : generateRandomAdjective()} ${
+          this.props.user.prefNoun ? this.props.user.prefNoun : generateRandomNoun()
+        }`,
+      });
+    } else {
+      this.setState({
+        username: generateRandomGuestName(),
+      });
+    }
 
-    socket.on('connectionSuccessful', numPlaying => {
-      this.setState({ numUsersPlaying: numPlaying });
-    });
-
-    socket.on('foundGame', gameData => {
+    this.state.socket.on('foundGame', gameData => {
       this.setState({
         currentMode: MODES.IN_GAME,
         gameId: gameData.gameId,
@@ -69,7 +72,7 @@ class Battle extends Component {
       }
     });
 
-    socket.on('playerSubmitted', submission => {
+    this.state.socket.on('playerSubmitted', submission => {
       this.setState({
         playersSubmitted: [
           ...this.state.playersSubmitted,
@@ -83,15 +86,13 @@ class Battle extends Component {
       this.state.timerRef.current.resetTimer();
     });
 
-    socket.on('gameOver', data => {
+    this.state.socket.on('gameOver', data => {
       this.setState({ gameIsLive: false, gameFinished: true, gameWon: data.gameWon, gameOverMessage: data.message });
     });
-
-    this.setState({ socket: socket });
   }
 
   componentWillUnmount() {
-    this.state.socket.disconnect();
+    //this.state.socket.disconnect();  TODO: May want to add event for leaving a battle game
   }
 
   joinLobby() {
@@ -242,6 +243,7 @@ class Battle extends Component {
               <PlayerSearch
                 onNewPlayerGuess={this.onNewPlayerGuess}
                 disabled={!(this.state.yourMove && this.state.gameIsLive)}
+                placeholder={'WAITING FOR OPPONENT...'}
                 disallowedPlayers={this.state.playersSubmitted.map(player => player.name)}
               ></PlayerSearch>
             </div>
